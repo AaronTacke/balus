@@ -96,6 +96,7 @@ def main():
     while True:
         start = time.time()
 
+        # Default Lighting
         rgb = [0, 255, 0]
         # Parse current instruction
         url_state = requests.get(model_url).text
@@ -104,8 +105,7 @@ def main():
         else:
             intended_state = prev
 
-        # TODO Fetch parameters from the model_url
-        # Change Color to Yellow if negative and change to normale action
+        # Change Color to Yellow if negative and map to normal action
         if intended_state == prev:
             continue
 
@@ -115,28 +115,34 @@ def main():
 
         # Call the respective cobot action for the given state ==>
         # Color is already set (if not color_blink, straight, lay_down)
+
+        # User should learn and is either doing it or should shortly take a break (and is doing that)
         match intended_state:
             case intended_state if 0 <= intended_state < 0.8:
-                cobot.lay_down([0, 0, 0])
-                print("lay_down(black)")
+                if rgb == [0, 255, 0]:
+                    rgb = [0, 0, 0]
+                cobot.lay_down(rgb)
+                print("lay_down(yellow or black)")
             case intended_state if 0.8 <= intended_state < 1.0:
                 cobot.color_blink([0, 10, 0])
                 print("color_blink(green)")
 
+            # User should take a pause (and is actually taking it)
             case intended_state if 1.0 <= intended_state < 2.0:
-                # This should be the Pause Phase
+                # Currently implemented as random choice
                 choice = randint(0, 1)
                 match choice:
                     case 0:
                         cobot.curled_up_wiggle(rgb)
-                        print(intended_state)
+                        print("curled_up_wiggle(set_color)")
                     case 1:
                         cobot.hide(rgb)
-                        print(intended_state)
+                        print("hide(set_color)")
 
+            # Straight Red --> User is not adhering to intended state
             case intended_state if intended_state == 2.0:
                 cobot.straight([255, 0, 0])
-                print("Straight(red)\n")
+                print("Straight(red)")
                 
             case intended_state if (2.0 < intended_state or intended_state < -2.0):
                 break
@@ -144,7 +150,7 @@ def main():
         end = time.time()
         duration = round(end - start, 2)
 
-        # Wait until nim_wait has been reached and repeat action
+        # Wait until min_wait has been reached and repeat action
         if duration < min_wait_between_calls:
             time.sleep(round(min_wait_between_calls - duration, 2))
         prev = intended_state
