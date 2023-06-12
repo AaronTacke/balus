@@ -89,6 +89,7 @@ def main():
     # Intended State >= 0 && <= 1.0 --> Intended State = Concentrated
     # Intended State > 1.0 && < 2.0 --> Intended State = Pause
     # Intended State == 2.0 --> Red Sraight
+    prev = -2.0
     intended_state = 0.0
     rgb = [0, 255, 0]
 
@@ -96,9 +97,18 @@ def main():
         start = time.time()
 
         rgb = [0, 255, 0]
-        # print(requests.get(model_url).text)
+        # Parse current instruction
+        url_state = requests.get(model_url).text
+        if url_state.isnumeric():
+            intended_state = float(url_state)
+        else:
+            intended_state = prev
+
         # TODO Fetch parameters from the model_url
         # Change Color to Yellow if negative and change to normale action
+        if intended_state == prev:
+            continue
+
         if intended_state < 0:
             rgb = [255, 255, 0]
             intended_state = abs(intended_state)
@@ -137,6 +147,7 @@ def main():
         # Wait until nim_wait has been reached and repeat action
         if duration < min_wait_between_calls:
             time.sleep(round(min_wait_between_calls - duration, 2))
+        prev = intended_state
 
 
 if __name__ == '__main__':
