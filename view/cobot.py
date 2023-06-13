@@ -116,7 +116,13 @@ def main():
         # User should learn and is either doing it or should shortly take a break (and is doing that)
         if intended_state != prev:
             match intended_state:
-                case intended_state if 0 <= intended_state < 0.8:
+                # Pause Cobot (Still regularly parse upcoming action)
+                case intended_state if intended_state == 0:
+                    cobot.hide([0, 0, 0])
+                    print("Pause Cobot")
+
+                # User should be concentrated
+                case intended_state if 0 < intended_state < 0.8:
                     if rgb == [0, 255, 0]:
                         rgb = [0, 0, 0]
                     cobot.lay_down(rgb)
@@ -127,15 +133,8 @@ def main():
 
                 # User should take a pause (and is actually taking it)
                 case intended_state if 1.0 <= intended_state < 2.0:
-                    # Currently implemented as random choice
-                    choice = randint(0, 1)
-                    match choice:
-                        case 0:
-                            cobot.curled_up_wiggle(rgb)
-                            print("curled_up_wiggle(set_color)")
-                        case 1:
-                            cobot.hide(rgb)
-                            print("hide(set_color)")
+                    cobot.curled_up_wiggle(rgb)
+                    print("curled_up_wiggle(set_color)")
 
                 # Straight Red --> User is not adhering to intended state
                 case intended_state if intended_state == 2.0:
