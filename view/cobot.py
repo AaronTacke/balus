@@ -9,6 +9,8 @@ model_url = "http://localhost:1110/view/should_learn"
 
 
 class Cobot:
+    cobot = {}
+
     def __init__(self, ip, port):
         self.cobot = MyCobotSocket(ip, port)
 
@@ -92,7 +94,7 @@ def preview():
 
 def main():
     # Hardcoded ==> minimum time between request checking
-    min_wait_between_calls = 30
+    min_wait_between_calls = 5
 
     cobot = Cobot("10.42.0.141", 9000)
     # Intended State < 0 --> Same Action with Yellow Light
@@ -110,7 +112,8 @@ def main():
         rgb = [0, 255, 0]
         # Parse current instruction
         url_state = requests.get(model_url).text
-        if url_state.isnumeric():
+        print(url_state)
+        if url_state.replace("-", "").replace(".", "").isnumeric():
             intended_state = float(url_state)
         else:
             intended_state = prev
@@ -119,6 +122,8 @@ def main():
         if intended_state < 0:
             rgb = [255, 255, 0]
             intended_state = abs(intended_state)
+
+        print("Intended State: " + str(intended_state) + ", rgb: " + str(rgb))
 
         # Call the respective cobot action for the given state ==>
         # Color is already set (if not color_blink, straight, lay_down)
