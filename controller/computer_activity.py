@@ -8,7 +8,6 @@ learning_url = "http://localhost:1110/model/is_learning"
 relaxing_url = "http://localhost:1110/model/is_relaxing"
 
 last_input = 0
-is_learning = False
 
 
 # Update last_input time
@@ -23,11 +22,9 @@ def main():
     with mouse.Listener(on_move=input_action, on_click=input_action, on_scroll=input_action) as mouse_listener:
         with keyboard.Listener(on_press=input_action, on_release=input_action) as keyboard_listener:
             while True:
-                if time() - last_input > inactive_threshold and is_learning:
-                    is_learning = False
+                if time() - last_input > inactive_threshold:
                     requests.get(relaxing_url)
-                if time() - last_input < inactive_threshold and not is_learning:
-                    is_learning = True
+                else:
                     requests.get(learning_url)
                 sleep(1)
 
