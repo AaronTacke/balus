@@ -21,6 +21,16 @@ class Cobot:
             time.sleep(0.005)
             i += 2
 
+    def inverse_color_blink(self, rgb):
+        # Should contain either red, blue or green set to 250
+        self.cobot.set_color(rgb[0], rgb[1], rgb[2])
+        i = 25
+        while i > 0:
+            self.cobot.set_color(rgb[0] * i, rgb[1] * i, rgb[2] * i)
+            time.sleep(0.005)
+            i -= 2
+        self.cobot.set_color(0, 0, 0)
+
     def straight(self, rgb):
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
         self.cobot.send_angles([0, 0, 0, 0, 0, 0], 20)
@@ -132,9 +142,12 @@ def main():
                     print("color_blink(green)")
 
                 # User should take a pause (and is actually taking it)
-                case intended_state if 1.0 <= intended_state < 2.0:
+                case intended_state if 1.0 <= intended_state < 1.8:
                     cobot.curled_up_wiggle(rgb)
                     print("curled_up_wiggle(set_color)")
+                case intended_state if 1.8 <= intended_state < 2.0:
+                    cobot.inverse_color_blink([0, 250, 0])
+                    print("inverse_color_blink(green)")
 
                 # Straight Red --> User is not adhering to intended state
                 case intended_state if intended_state == 2.0:
