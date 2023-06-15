@@ -1,9 +1,9 @@
 from flask import Flask, redirect
-from Person.homer import Homer
+from Person.eva import Eva
 from flask_swagger_ui import get_swaggerui_blueprint
 
 # Select implementation of model for user
-person = Homer()
+person = Eva()
 
 # Webservice for communication with controllers and views
 app = Flask(__name__)
@@ -151,7 +151,7 @@ def swagger():
                     "tags": [
                         "Model"
                     ],
-                    "summary": "Set the person to distracted mode",
+                    "summary": "unused",
                     "responses": {
                         "200": {
                             "description": "Returns 'ok' if successful",
@@ -167,7 +167,7 @@ def swagger():
                     "tags": [
                         "Model"
                     ],
-                    "summary": "Set the person to concentrated mode",
+                    "summary": "unused",
                     "responses": {
                         "200": {
                             "description": "Returns 'ok' if successful",
@@ -183,7 +183,7 @@ def swagger():
                     "tags": [
                         "Model"
                     ],
-                    "summary": "Set the person to leaving mode",
+                    "summary": "Pauses the model",
                     "responses": {
                         "200": {
                             "description": "Returns 'ok' if successful",
@@ -199,7 +199,7 @@ def swagger():
                     "tags": [
                         "Model"
                     ],
-                    "summary": "Set the person to back mode",
+                    "summary": "Continues the model",
                     "responses": {
                         "200": {
                             "description": "Returns 'ok' if successful",
@@ -215,7 +215,7 @@ def swagger():
                     "tags": [
                         "Model"
                     ],
-                    "summary": "Set the person to happy mode",
+                    "summary": "unused",
                     "responses": {
                         "200": {
                             "description": "Returns 'ok' if successful",
@@ -231,7 +231,7 @@ def swagger():
                     "tags": [
                         "Model"
                     ],
-                    "summary": "Set the person to mad mode",
+                    "summary": "Person does not like suggestion",
                     "responses": {
                         "200": {
                             "description": "Returns 'ok' if successful",
