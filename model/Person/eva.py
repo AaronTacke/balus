@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 # Calculate which portion of a time frame is already over
 def portion(time, max_time, max_value):
-    res = round((datetime.now() - time).total_seconds() / max_time.total_seconds(), 2)
+    res = 0.01 + (datetime.now() - time).total_seconds() / max_time.total_seconds()
     if res >= 1:
         return max_value
     return res
@@ -30,17 +30,17 @@ class Eva(Person):
             return 0
         if self.state == 1:
             percentage = portion(self.phase_start, self.learn_time, 2)
-            return percentage
+            return round(percentage, 2)
         if self.state == 2:
             if (datetime.now() - self.distracting_start) < self.tolerated_distraction:
                 real_phase_start = self.phase_start + (datetime.now() - self.distracting_start)
                 percentage = portion(real_phase_start, self.learn_time, 0.99)
-                return - percentage
+                return round(- percentage, 2)
             else:
                 return 2
         if self.state == 3:
             percentage = portion(self.phase_start, self.pause_time, 1)
-            return 1 + percentage
+            return round(1 + percentage, 2)
 
     def is_learning(self):
         if self.state == 2:
@@ -52,7 +52,7 @@ class Eva(Person):
 
     def is_relaxing(self):
         if self.state == 1:
-            if self.okay_to_continue_threshold <= self.should_learn() < 1 or self.should_learn() == 2:
+            if self.okay_to_continue_threshold <= self.should_learn():
                 self.state = 3
                 self.phase_start = datetime.now()
             else:
@@ -63,9 +63,9 @@ class Eva(Person):
         if self.state == 2 and self.should_learn() == 2:
             self.state = 3
             self.phase_start = datetime.now()
-        if self.state == 1 and self.okay_to_continue_threshold <= self.should_learn() < 1:
+        if self.state == 1 and self.okay_to_continue_threshold <= self.should_learn():
             self.phase_start += timedelta(0, 60)
-        if self.state == 3 and 1 + self.okay_to_continue_threshold <= self.should_learn() <= 2:
+        if self.state == 3 and 1 + self.okay_to_continue_threshold <= self.should_learn():
             self.phase_start += timedelta(0, 30)
 
     def is_leaving(self):
