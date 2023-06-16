@@ -18,19 +18,19 @@ class Cobot:
         # Should contain either red, blue or green set to 10
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
         i = 0
-        while i < 25:
-            self.cobot.set_color(rgb[0] * i, rgb[1] * i, rgb[2] * i)
+        while i < 24:
+            self.cobot.set_color(rgb[0] * i, rgb[1] + (i*10), rgb[2] * i)
             time.sleep(0.005)
             i += 2
 
     def inverse_color_blink(self, rgb):
         # Should contain either red, blue or green set to 250
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
-        i = 25
-        while i > 0:
-            self.cobot.set_color(rgb[0] * i, rgb[1] * i, rgb[2] * i)
+        i = 0
+        while i <= 25:
+            self.cobot.set_color(rgb[0] * i, rgb[1] - (i * 10), rgb[2] * i)
             time.sleep(0.005)
-            i -= 2
+            i += 2
         self.cobot.set_color(0, 0, 0)
 
     def straight(self, rgb):
@@ -71,13 +71,12 @@ class Cobot:
 
     def lay_down(self, rgb):
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
-        self.cobot.send_angles([90, 140, -40, -5, -90, 0], 20)
+        self.cobot.send_angles([90, 135, -40, -5, -90, 0], 20)
         time.sleep(10)
 
 
 def preview():
     cobot = Cobot("10.42.0.141", 9000)
-    time.sleep(5)
     print("Straight")
     cobot.straight([0, 0, 255])
     print("Color_Blink")
@@ -94,7 +93,7 @@ def preview():
 
 def main():
     # Hardcoded ==> minimum time between request checking
-    min_wait_between_calls = 5
+    min_wait_between_calls = 1
 
     cobot = Cobot("10.42.0.141", 9000)
     # Intended State < 0 --> Same Action with Yellow Light
