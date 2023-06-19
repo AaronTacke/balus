@@ -41,13 +41,12 @@ class Cobot:
     def curled_up(self, rgb):
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
         self.cobot.send_angles([90, 140, -145, -60, -90, 0], 20)
-        time.sleep(5)
+        time.sleep(2)
 
     def curled_up_wiggle(self, rgb):
         # Default Setup for Curled state
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
         self.curled_up(rgb)
-        time.sleep(5)
         self.cobot.send_angle(Angle.J4.value, 0, 20)
         time.sleep(2)
         # Start Animation
