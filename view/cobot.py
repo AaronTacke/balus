@@ -36,7 +36,7 @@ class Cobot:
     def straight(self, rgb):
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
         self.cobot.send_angles([0, 0, 0, 0, 0, 0], 20)
-        time.sleep(5)
+        time.sleep(2)
 
     def curled_up(self, rgb):
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
@@ -66,12 +66,12 @@ class Cobot:
     def hide(self, rgb):
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
         self.cobot.send_angles([87.89, -93.6, -79.8, -98.17, -87.01, -91.4], 20)
-        time.sleep(10)
+        time.sleep(2)
 
     def lay_down(self, rgb):
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
         self.cobot.send_angles([90, 135, -40, -5, -90, 0], 20)
-        time.sleep(10)
+        time.sleep(2)
 
 
 def preview():
