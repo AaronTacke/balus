@@ -19,7 +19,7 @@ class Cobot:
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
         i = 0
         while i < 24:
-            self.cobot.set_color(rgb[0] * i, rgb[1] + (i*10), rgb[2] * i)
+            self.cobot.set_color(rgb[0] * i, rgb[1] + (i * 10), rgb[2] * i)
             time.sleep(0.005)
             i += 2
 
@@ -48,7 +48,7 @@ class Cobot:
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
         self.curled_up(rgb)
         self.cobot.send_angle(Angle.J4.value, 0, 20)
-        time.sleep(2)
+        time.sleep(3)
         # Start Animation
         self.cobot.send_angle(Angle.J4.value, 45, 40)
         time.sleep(1)
@@ -58,10 +58,10 @@ class Cobot:
         time.sleep(1)
         self.cobot.send_angle(Angle.J4.value, -45, 40)
         time.sleep(1)
-        self.cobot.send_angle(Angle.J4.value, 45, 40)
-        time.sleep(1)
-        self.cobot.send_angle(Angle.J4.value, 0, 40)
-        time.sleep(1)
+        # self.cobot.send_angle(Angle.J4.value, 45, 40)
+        # time.sleep(1)
+        # self.cobot.send_angle(Angle.J4.value, 0, 40)
+        # time.sleep(1)
 
     def hide(self, rgb):
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
@@ -74,7 +74,7 @@ class Cobot:
         time.sleep(2)
 
 
-def preview():
+def preview_v1():
     cobot = Cobot("10.42.0.141", 9000)
     print("Straight")
     cobot.straight([0, 0, 255])
@@ -90,7 +90,59 @@ def preview():
     cobot.straight([255, 0, 0])
 
 
+def preview_v2():
+    cobot = Cobot("10.42.0.141", 9000)
+    print("Start: Hide")
+    cobot.hide([0, 0, 0])
+    # Reset
+    time.sleep(5)
+    cobot.hide([0, 0, 255])
+    time.sleep(3)
+    print("Start: Lay_Down")
+    cobot.lay_down([0, 0, 0])
+    # Reset
+    time.sleep(5)
+    cobot.hide([0, 0, 255])
+    time.sleep(3)
+    print("Start: Lay_Down[Yellow]")
+    cobot.lay_down([0, 0, 0])
+    cobot.lay_down([255, 255, 0])
+    # Reset
+    time.sleep(5)
+    cobot.hide([0, 0, 255])
+    time.sleep(3)
+    print("Start: Wake Up")
+    cobot.lay_down([0, 0, 0])
+    cobot.color_blink([0, 10, 0])
+    # Reset
+    time.sleep(5)
+    cobot.hide([0, 0, 255])
+    time.sleep(3)
+    print("Start: Straight")
+    cobot.straight([255, 0, 0])
+    # Reset
+    time.sleep(5)
+    cobot.hide([0, 0, 255])
+    time.sleep(3)
+    print("Start: Wiggle")
+    cobot.curled_up_wiggle([0, 255, 0])
+    # Reset
+    time.sleep(5)
+    cobot.hide([0, 0, 255])
+    time.sleep(3)
+    print("Start Inverse Wake Up")
+    cobot.curled_up([0, 255, 0])
+    cobot.inverse_color_blink([0, 255, 0])
+    # Reset
+    time.sleep(5)
+    cobot.hide([0, 0, 255])
+    time.sleep(3)
+    print("Finish")
+
+
 def main():
+    preview_v2()
+    exit(0)
     # Hardcoded ==> minimum time between request checking
     min_wait_between_calls = 1
 
