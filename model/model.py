@@ -1,9 +1,9 @@
 from flask import Flask, redirect
-from Person.eva import Eva
+from Person.inken import Inken
 from flask_swagger_ui import get_swaggerui_blueprint
 
 # Select implementation of model for user
-person = Eva()
+person = Inken()
 
 # Webservice for communication with controllers and views
 app = Flask(__name__)

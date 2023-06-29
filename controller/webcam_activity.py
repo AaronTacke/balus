@@ -21,14 +21,13 @@ def multiple_checks(getter, steps):
 def main():
     recognizer = HandGestureRecognizer()
     while True:
-        gesture = multiple_checks(recognizer.get_current_gesture, 20)
+        gesture = multiple_checks(recognizer.get_current_gesture, 15)
         if gesture == "stop" or gesture == "live long":
             requests.get(mad_url)
         if gesture == "thumbs up":
             requests.get(back_url)
         if gesture == "thumbs down":
             requests.get(leaving_url)
-        time.sleep(1)
 
 
 if __name__ == '__main__':
