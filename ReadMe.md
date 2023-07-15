@@ -34,16 +34,14 @@ The [Cobot](./view/cobot.py) file is the main component used to pass instruction
 Effectively, the Cobot class takes the input provided through the url fed by Model and Controller and maps the received values to corresponding actions taken by the MyCobot.
 The following mappings are provided:
 
-#### \*\*\*ADD RESULTS OF FINAL STUDY ABOUT WHETHER THIS WORKED\*\*\*
-
-| input_state | Cobot_Action | Color           | Meaning                  |
-|-------------|--------------|-----------------|--------------------------|
-| [0.0, 0.0]  | Hide         | Off             | Robot is inactive        |
-| (0.0, 0.8)  | Sleep        | Off (Yellow)*   | User learns              |
-| [0.8, 1.0)  | Wake_Up      | Off -> Green    | User should take a break |
-| [1.0, 1.8)  | Wiggle       | Green (Yellow)* | User takes a break       |
-| [1.8, 2.0)  | Fall_Asleep  | Green -> Off    | User should learn        |
-| [2.0, 2.0]  | Straight     | Red             | User must comply now     |
+| input_state | Cobot_Action | Color           | Meaning                  | Korrekt Verstanden [n=10] |
+|-------------|--------------|-----------------|--------------------------|---------------------------|
+| [0.0, 0.0]  | Hide         | Off             | Robot is inactive        | 70%                       |
+| (0.0, 0.8)  | Sleep        | Off (Yellow)*   | User learns              | 100%                      |
+| [0.8, 1.0)  | Wake_Up      | Off -> Green    | User should take a break | 50%                       |
+| [1.0, 1.8)  | Wiggle       | Green (Yellow)* | User takes a break       | 60%                       |
+| [1.8, 2.0)  | Fall_Asleep  | Green -> Off    | User should learn        | 20%                       |
+| [2.0, 2.0]  | Straight     | Red             | User must comply now     | 50%                       |
 
 *) if the sign bit of the input_state is set, the alternative color is used as a warning sign.
 
