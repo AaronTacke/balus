@@ -58,10 +58,6 @@ class Cobot:
         time.sleep(1)
         self.cobot.send_angle(Angle.J4.value, -45, 40)
         time.sleep(1)
-        # self.cobot.send_angle(Angle.J4.value, 45, 40)
-        # time.sleep(1)
-        # self.cobot.send_angle(Angle.J4.value, 0, 40)
-        # time.sleep(1)
 
     def hide(self, rgb):
         self.cobot.set_color(rgb[0], rgb[1], rgb[2])
@@ -140,8 +136,50 @@ def preview_v2():
     print("Finish")
 
 
+def preview_v3():
+    cobot = Cobot("10.42.0.141", 9000)
+    cobot.hide([0, 0, 0])
+    print("Starting in 5s...")
+    time.sleep(3)
+    print("Thumbs up")
+    time.sleep(3)
+    cobot.lay_down([0, 0, 0])
+    print("Work 5s...")
+    time.sleep(10)
+    print("Use Phone")
+    time.sleep(5)
+    cobot.lay_down([255, 255, 0])
+    time.sleep(2)
+    print("Put Phone down...")
+    time.sleep(2)
+    cobot.lay_down([0, 0, 0])
+    time.sleep(3)
+    cobot.color_blink([0, 10, 0])
+    print("Hand...")
+    time.sleep(5)
+    cobot.lay_down([0, 0, 0])
+    time.sleep(2)
+    cobot.color_blink([0, 10, 0])
+    time.sleep(3)
+    print("Pause...")
+    cobot.straight([255, 0, 0])
+    time.sleep(3)
+    print("Pause...")
+    cobot.curled_up_wiggle([0, 255, 0])
+    time.sleep(5)
+    cobot.inverse_color_blink([0, 255, 0])
+    time.sleep(3)
+    print("Work...")
+    cobot.lay_down([0, 0, 0])
+    print("Thumbs down")
+    time.sleep(5)
+    cobot.hide([0, 0, 0])
+    print("Finish")
+
+
+
 def main():
-    preview_v2()
+    preview_v3()
     exit(0)
     # Hardcoded ==> minimum time between request checking
     min_wait_between_calls = 1
